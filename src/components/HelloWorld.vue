@@ -3,16 +3,17 @@
   .container-fluid
     .row.text-center
       .col-12
+        h2 {{ type.toUpperCase() }} {{ filterResources.length }}
   div
     .row.filters
       .col-6
         input.search.form-control(type='text', placeholder='Search', v-model='searchTerm')
       .col-6
         select.form-control(v-model='type')
-          option(v-for='option in ["", "playing", "queue", "archived"]', :value='option') {{ option }}
+          option(v-for='option in ["", "playing", "queue", "archived"]', :value='option') {{ option.toUpperCase() }}
   .container
     .row.text-left
-      .col-12.col-md-4(v-for='resource in resources', :key='resource.appid', v-if='shouldShow(resource)')
+      .col-12.col-md-4(v-for='resource in filterResources', :key='resource.appid')
         .card
           img(v-lazy='`http://media.steampowered.com/steamcommunity/public/images/apps/${resource.appid}/${resource.img_logo_url}.jpg`')
           strong {{resource.name}}
@@ -86,6 +87,9 @@ export default {
     },
   },
   computed: {
+    filterResources() {
+      return this.resources.filter(item => this.shouldShow(item));
+    },
     playing() {
       return this.$store.state.playing;
     },
