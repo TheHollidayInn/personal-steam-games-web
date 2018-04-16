@@ -42,7 +42,7 @@ export default {
     };
   },
   async mounted() {
-    const url = 'http://localhost:3000';
+    const url = 'https://personal-steam-games-api.herokuapp.com';
     const response = await axios.get(url);
 
     this.resources = response.data;
